@@ -1,0 +1,3 @@
+html, body { overflow: hidden; overscroll-behavior: none; }
+.field { flex: 1; min-height: 0; display: grid; place-items: center; margin: 2px 14px 18px; }
+#maze { display: block; touch-action: none; border: 6px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); cursor: pointer; }

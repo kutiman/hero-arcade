@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Hero Arcade</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="shared/icon-192.png">
+  <link rel="apple-touch-icon" href="shared/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hero Arcade">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1746c7">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="shared/theme.css">
+  <style>
+    main {
+      max-width: 980px;
+      min-height: 100%;
+      margin: 0 auto;
+      display: grid;
+      align-content: center;
+      padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(40px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+    }
+    .games { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(44%, 260px), 1fr)); gap: 24px; }
+    .card {
+      position: relative;
+      display: block;
+      background: var(--paper);
+      border: 6px solid var(--ink);
+      border-radius: 4px;
+      box-shadow: 8px 8px 0 var(--ink);
+      overflow: hidden;
+      transition: transform .18s cubic-bezier(.3, 1.8, .5, 1);
+      animation: card-in .5s cubic-bezier(.3, 1.6, .5, 1) backwards;
+      animation-delay: calc(var(--order) * 60ms);
+    }
+    .card:nth-child(odd) { transform: rotate(-1deg); }
+    .card:nth-child(even) { transform: rotate(1deg); }
+    a.card:hover { transform: rotate(-2deg) scale(1.04); }
+    a.card:active { transform: scale(.95); }
+    a.card:focus-visible { outline: 4px solid var(--yellow); outline-offset: 3px; }
+    @keyframes card-in { from { transform: translateY(30px) scale(.85); } }
+    @media (prefers-reduced-motion: reduce) { .card { animation: none; } }
+    .cover { display: grid; place-items: center; aspect-ratio: 4 / 3; overflow: hidden; background: var(--tint, var(--yellow)); font-size: clamp(64px, 16vw, 120px); }
+    .cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .badge-count {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      min-width: 44px;
+      padding: 4px 8px;
+      font-size: 30px;
+      line-height: 1;
+      text-align: center;
+      background: var(--paper);
+      border: 4px solid var(--ink);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="games">
+      <a class="card" style="--order: 0" href="games/puzzle/index.html" aria-label="Puzzle">
+        <div id="puzzle-cover" class="cover"><span data-icon="extension"></span></div>
+      </a>
+      <a class="card" style="--order: 1" href="games/memory/index.html" aria-label="Memory match">
+        <div class="cover" style="--tint: var(--sky)"><span data-icon="style"></span></div>
+      </a>
+      <a class="card" style="--order: 2" href="games/numbers/index.html" aria-label="Number pop">
+        <div class="cover" style="--tint: var(--coral)"><span data-icon="123"></span></div>
+      </a>
+      <a class="card" style="--order: 3" href="games/scratch/index.html" aria-label="Scratch reveal">
+        <div class="cover" style="--tint: var(--yellow)"><span data-icon="touch_app"></span></div>
+      </a>
+      <a class="card" style="--order: 4" href="games/comic/index.html" aria-label="Comic maker">
+        <div class="cover" style="--tint: var(--paper)"><span data-icon="brush"></span></div>
+      </a>
+      <a class="card" style="--order: 5" href="games/runner/index.html" aria-label="Bolt run">
+        <div class="cover" style="--tint: var(--sky)"><span data-icon="directions_run"></span></div>
+      </a>
+      <a class="card" style="--order: 6" href="games/shapes/index.html" aria-label="Shape sort">
+        <div class="cover" style="--tint: var(--coral)"><span data-icon="category"></span></div>
+      </a>
+      <a class="card" style="--order: 7" href="games/pattern/index.html" aria-label="Pattern train">
+        <div class="cover" style="--tint: var(--yellow)"><span data-icon="train"></span></div>
+      </a>
+      <a class="card" style="--order: 8" href="games/echo/index.html" aria-label="Echo pads">
+        <div class="cover" style="--tint: var(--paper)"><span data-icon="piano"></span></div>
+      </a>
+      <a class="card" style="--order: 9" href="games/maze/index.html" aria-label="Maze rover">
+        <div class="cover" style="--tint: var(--coral)"><span data-icon="explore"></span></div>
+      </a>
+      <a class="card" style="--order: 10" href="games/stickers/index.html" aria-label="Sticker book">
+        <div class="cover" style="--tint: var(--sky)"><span data-icon="star"></span></div>
+        <span id="sticker-count" class="badge-count">0</span>
+      </a>
+    </section>
+  </main>
+  <script src="shared/icons.js"></script>
+  <script src="shared/sfx.js"></script>
+  <script src="games/puzzle/own-pictures.js"></script>
+  <script src="shared/arcade.js"></script>
+  <script>
+    Icons.fill();
+    ownPictures.list().then(own => {
+      if (!own.length) return;
+      const image = new Image();
+      image.alt = '';
+      image.src = own[own.length - 1].thumb;
+      document.getElementById('puzzle-cover').replaceChildren(image);
+    }).catch(() => {});
+    Arcade.syncStickers().then(count => {
+      document.getElementById('sticker-count').textContent = Math.min(count, Arcade.STICKERS.length);
+    });
+  </script>
+</body>
+</html>

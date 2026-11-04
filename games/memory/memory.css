@@ -1,0 +1,115 @@
+html, body { overflow: hidden; overscroll-behavior: none; }
+
+.player {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  min-height: 60px;
+  font-size: 40px;
+  line-height: 1;
+  background: var(--paper);
+  border: var(--line) solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform .2s cubic-bezier(.3, 1.8, .5, 1), opacity .2s;
+}
+.player b { font-weight: 400; min-width: 1ch; text-align: center; font-variant-numeric: tabular-nums; }
+.player.one { background: var(--yellow); }
+.player.two { background: var(--sky); }
+.player[hidden] { display: none; }
+.two-players .player:not(.active) { opacity: .55; transform: scale(.85); }
+.two-players .player.active { transform: scale(1.12) rotate(-2deg); }
+
+.table { position: relative; flex: 1; min-height: 0; padding: 4px 14px 16px; }
+.cards { display: grid; justify-content: center; align-content: center; height: 100%; gap: var(--gap, 10px); grid-template-columns: repeat(var(--cols, 3), var(--card, 100px)); }
+
+.card {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  aspect-ratio: 4 / 5;
+  perspective: 700px;
+  cursor: pointer;
+  animation: deal .4s cubic-bezier(.3, 1.6, .5, 1) backwards;
+  animation-delay: calc(var(--order) * 28ms);
+}
+.card:focus-visible { outline: 4px solid var(--yellow); outline-offset: 3px; }
+@keyframes deal { from { transform: translateY(-60px) scale(.5) rotate(-14deg); } }
+
+.inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .34s cubic-bezier(.3, 1.3, .5, 1);
+}
+.card.up .inner { transform: rotateY(180deg); }
+
+.face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: var(--line) solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.back {
+  background-color: var(--coral);
+  background-image: radial-gradient(rgba(255, 255, 255, .45) 2px, transparent 2.6px);
+  background-size: 11px 11px;
+  color: var(--paper);
+  font-size: calc(var(--card, 100px) * .5);
+}
+.front { background: var(--paper); transform: rotateY(180deg); }
+.front img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.card.miss .inner { animation: miss .36s; }
+@keyframes miss {
+  25% { transform: rotateY(180deg) translateX(-8px); }
+  75% { transform: rotateY(180deg) translateX(8px); }
+}
+.card.found { cursor: default; animation: found .5s cubic-bezier(.3, 2, .5, 1); }
+.card.found .front { border-color: var(--yellow); box-shadow: 0 0 0 4px var(--ink), 4px 4px 0 4px var(--ink); }
+@keyframes found { 40% { transform: scale(1.16) rotate(-3deg); } }
+
+.players { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.players .btn { background: var(--paper); font-size: 56px; min-height: 92px; }
+.players .btn.on { background: var(--yellow); transform: rotate(-1.5deg); }
+
+.result { display: flex; justify-content: center; gap: 18px; }
+.result .player { font-size: 48px; opacity: 1; transform: none; }
+.result .winner { transform: scale(1.14) rotate(-3deg); }
+.result .icon.prize { color: var(--red); }
+
+.spotlight {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: min(78vw, 62vh);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  z-index: 15;
+  border: 7px solid var(--ink);
+  box-shadow: 10px 10px 0 var(--ink);
+  transform: translate(-50%, -50%) rotate(-2deg);
+  pointer-events: none;
+  animation: spot-in .34s cubic-bezier(.3, 1.8, .5, 1);
+}
+.spotlight[hidden] { display: none; }
+@keyframes spot-in { from { transform: translate(-50%, -50%) scale(.3) rotate(-14deg); } }
+
+@media (max-height: 520px) {
+  .player { min-height: 48px; font-size: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .card.found, .card.miss .inner, .spotlight { animation: none; }
+  .inner, .player { transition: none; }
+}

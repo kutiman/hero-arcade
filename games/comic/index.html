@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>Comic Maker</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../shared/icon-192.png">
+  <link rel="apple-touch-icon" href="../../shared/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hero Arcade">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1746c7">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../../shared/theme.css">
+  <link rel="stylesheet" href="comic.css">
+</head>
+<body>
+  <section id="pick" class="screen">
+    <header class="bar"><a class="btn plain" href="../../index.html" aria-label="Back to the arcade"><span data-icon="arrow_back"></span></a></header>
+    <div id="tiles" class="pick-tiles"></div>
+  </section>
+
+  <section id="studio" class="screen" hidden>
+    <header class="bar">
+      <button id="leave" class="btn plain" aria-label="Back to the pictures"><span data-icon="arrow_back"></span></button>
+      <span class="spacer"></span>
+      <button id="undo" class="btn sky" aria-label="Undo"><span data-icon="undo"></span></button>
+      <button id="save" class="btn" aria-label="Save"><span data-icon="check"></span></button>
+    </header>
+    <div id="desk" class="desk"><canvas id="page"></canvas></div>
+    <div class="tools">
+      <div id="colors" class="colors"></div>
+      <button id="open-stickers" class="btn coral" aria-label="Stickers"><span data-icon="star"></span></button>
+    </div>
+  </section>
+
+  <div id="tray" class="overlay" hidden>
+    <div class="panel"><div id="sticker-choices" class="sticker-choices"></div></div>
+  </div>
+
+  <div id="need-pictures" class="overlay" hidden>
+    <div class="panel">
+      <a class="btn add-link" href="../puzzle/index.html" aria-label="Add pictures"><span data-icon="add_photo_alternate"></span></a>
+    </div>
+  </div>
+
+  <script src="../../shared/icons.js"></script>
+  <script src="../../shared/sfx.js"></script>
+  <script src="../puzzle/own-pictures.js"></script>
+  <script src="../../shared/arcade.js"></script>
+  <script src="comic.js"></script>
+</body>
+</html>

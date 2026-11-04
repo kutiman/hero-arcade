@@ -1,0 +1,58 @@
+html, body { overflow: hidden; overscroll-behavior: none; }
+
+.pick-tiles {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(46%, 220px), 1fr));
+  grid-auto-rows: max-content;
+  gap: 18px;
+  padding: 6px 18px 30px;
+}
+.pick-tile {
+  appearance: none;
+  padding: 0;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--paper);
+  border: var(--line) solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+  cursor: pointer;
+  transition: transform .12s cubic-bezier(.3, 1.8, .5, 1);
+}
+.pick-tile:active { transform: scale(.95); }
+.pick-tile:focus-visible { outline: 4px solid var(--yellow); outline-offset: 3px; }
+.pick-tile img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.desk { flex: 1; min-height: 0; display: grid; place-items: center; padding: 2px 16px; }
+#page { display: block; touch-action: none; border: var(--line) solid var(--ink); box-shadow: var(--pop) var(--pop) 0 var(--ink); cursor: crosshair; background: var(--paper); }
+
+.tools { flex: none; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 10px 14px 14px; }
+.colors { display: flex; gap: 8px; }
+.swatch {
+  appearance: none;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: var(--line) solid var(--ink);
+  border-radius: 50%;
+  box-shadow: 3px 3px 0 var(--ink);
+  cursor: pointer;
+  transition: transform .12s cubic-bezier(.3, 1.8, .5, 1);
+}
+.swatch.on { transform: scale(1.2); box-shadow: 0 0 0 4px var(--paper), 3px 3px 0 4px var(--ink); }
+.swatch:focus-visible { outline: 4px solid var(--paper); outline-offset: 3px; }
+
+.sticker-choices { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 12px; }
+.sticker-choices .sticker { appearance: none; padding: 0; cursor: pointer; font: inherit; }
+
+@media (max-width: 420px) {
+  .swatch { width: 46px; height: 46px; }
+  .colors { gap: 6px; }
+  .tools { gap: 8px; }
+}
+@media (max-height: 520px) {
+  .tools { padding: 4px 10px 6px; }
+  .swatch { width: 42px; height: 42px; }
+}

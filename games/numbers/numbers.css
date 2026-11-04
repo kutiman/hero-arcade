@@ -1,0 +1,64 @@
+html, body { overflow: hidden; overscroll-behavior: none; }
+
+.arena { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px; padding: 4px 16px 16px; }
+.reveal {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 110px;
+  overflow: hidden;
+  background: var(--cobalt-deep);
+  border: 6px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.reveal img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cover { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
+.tile-cover {
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  font-size: min(9vw, 6vh);
+  transition: transform .36s cubic-bezier(.5, -.4, .6, 1), opacity .3s;
+}
+.tile-cover:nth-child(even) { background: var(--sky); }
+.tile-cover.gone { transform: scale(0) rotate(40deg); opacity: 0; }
+
+.ask { flex: none; display: flex; flex-direction: column; gap: 12px; }
+.target {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  gap: 2px;
+  min-width: 110px;
+  min-height: 70px;
+  max-width: 100%;
+  padding: 4px 18px;
+  font-size: 60px;
+  line-height: 1;
+  background: var(--paper);
+  border: var(--line) solid var(--ink);
+  box-shadow: var(--pop) var(--pop) 0 var(--ink);
+  transform: rotate(-2deg);
+}
+.target.stars { font-size: 30px; color: var(--red); }
+
+.answers { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: minmax(var(--target), 1fr); gap: 14px; }
+.answers .btn { font-size: 52px; }
+.answers .btn:nth-child(2) { background: var(--sky); }
+.answers .btn:nth-child(3) { background: var(--coral); }
+.answers .btn:nth-child(4) { background: var(--paper); }
+
+.choices.three { grid-template-columns: 1fr; }
+
+@media (orientation: landscape) {
+  .arena { flex-direction: row; }
+  .reveal { flex: 1 1 50%; }
+  .ask { flex: 1 1 50%; min-width: 0; justify-content: center; }
+  .tile-cover { font-size: min(5vw, 9vh); }
+}
+
+@media (prefers-reduced-motion: reduce) { .tile-cover { transition: none; } }

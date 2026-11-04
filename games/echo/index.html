@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>Echo Pads</title>
+  <link rel="manifest" href="../../manifest.webmanifest">
+  <link rel="icon" href="../../shared/icon-192.png">
+  <link rel="apple-touch-icon" href="../../shared/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hero Arcade">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1746c7">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../../shared/theme.css">
+  <link rel="stylesheet" href="echo.css">
+</head>
+<body>
+  <section class="screen">
+    <header class="bar">
+      <a class="btn plain" href="../../index.html" aria-label="Back to the arcade"><span data-icon="arrow_back"></span></a>
+      <span class="spacer"></span>
+      <div id="rounds" class="rounds"></div>
+      <span class="spacer"></span>
+      <button id="sound" class="btn plain" aria-label="Sound on or off"></button>
+    </header>
+    <div id="pads" class="pads"></div>
+  </section>
+
+  <div id="setup" class="overlay" hidden>
+    <div class="panel"><div id="sizes" class="choices"></div></div>
+  </div>
+
+  <div id="done" class="overlay won" hidden>
+    <div class="panel">
+      <div class="party"><span data-icon="celebration"></span></div>
+      <div class="actions">
+        <button id="again" class="btn" aria-label="Play again"><span data-icon="replay"></span></button>
+        <a class="btn sky" href="../../index.html" aria-label="Back to the arcade"><span data-icon="grid_view"></span></a>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../shared/icons.js"></script>
+  <script src="../../shared/sfx.js"></script>
+  <script src="../puzzle/own-pictures.js"></script>
+  <script src="../../shared/arcade.js"></script>
+  <script src="echo.js"></script>
+</body>
+</html>

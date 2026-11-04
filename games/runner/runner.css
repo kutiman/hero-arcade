@@ -1,0 +1,3 @@
+html, body { overflow: hidden; overscroll-behavior: none; }
+.track { position: relative; flex: 1; min-height: 0; margin: 2px 12px 14px; border: 6px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); overflow: hidden; touch-action: manipulation; cursor: pointer; }
+#world { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }

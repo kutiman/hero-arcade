@@ -1,0 +1,41 @@
+html, body { overflow: hidden; overscroll-behavior: none; }
+
+.rounds { display: flex; gap: 2px; font-size: 32px; color: rgba(255, 253, 243, .35); filter: drop-shadow(2px 2px 0 var(--ink)); }
+.rounds .on { color: var(--yellow); }
+
+.arena { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 14px; padding: 4px 16px 16px; }
+.frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--paper);
+  border: 6px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.frame img, .frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.frame img { object-fit: cover; }
+.frame canvas { touch-action: none; cursor: pointer; transition: opacity .4s; }
+.frame canvas.open { opacity: 0; pointer-events: none; }
+
+.guesses { flex: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.guess {
+  appearance: none;
+  padding: 0;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  min-height: 76px;
+  background: var(--paper);
+  border: var(--line) solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  cursor: pointer;
+  transition: transform .1s cubic-bezier(.3, 1.8, .5, 1);
+}
+.guess:active { transform: scale(.94); }
+.guess:focus-visible { outline: 4px solid var(--yellow); outline-offset: 3px; }
+.guess img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+@media (orientation: landscape) {
+  .arena { flex-direction: row; }
+  .guesses { grid-template-columns: 1fr; width: min(26vw, 200px); align-content: center; }
+}

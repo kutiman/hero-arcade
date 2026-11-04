@@ -1,0 +1,225 @@
+/* Comic Pop: the look shared by every minigame. Change a color or size here and all screens follow. */
+:root {
+  --ink: #111111;
+  --paper: #fffdf3;
+  --yellow: #ffe14d;
+  --sky: #58c6ff;
+  --coral: #ff6a4d;
+  --red: #e3261c;
+  --cobalt: #1746c7;
+  --cobalt-deep: #0d2a8f;
+  --line: 5px;
+  --pop: 6px;
+  --target: 76px;
+  --comic: "Bangers", "Marker Felt", "Arial Black", Impact, sans-serif;
+}
+
+@font-face {
+  font-family: "Bangers";
+  src: url("fonts/bangers.woff2") format("woff2");
+  font-display: swap;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+html { background: var(--cobalt-deep); }
+
+body {
+  color: var(--ink);
+  font-family: var(--comic);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Sunburst, printed dots and a skyline, fixed behind every screen. */
+body::before, body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+body::before {
+  background:
+    url("city.svg") bottom center / auto min(42vh, 380px) repeat-x,
+    repeating-conic-gradient(from 3deg at 50% 36%, rgba(255, 255, 255, .075) 0 7deg, transparent 7deg 16deg),
+    radial-gradient(circle at 50% 36%, #4d8dff 0, var(--cobalt) 46%, var(--cobalt-deep) 100%);
+}
+body::after {
+  background-image: radial-gradient(rgba(255, 255, 255, .3) 2.2px, transparent 2.8px);
+  background-size: 13px 13px;
+  -webkit-mask-image: radial-gradient(circle at 50% 36%, transparent 34%, #000 92%);
+  mask-image: radial-gradient(circle at 50% 36%, transparent 34%, #000 92%);
+}
+
+.icon { display: inline-block; width: 1em; height: 1em; flex: none; line-height: 0; }
+.icon svg { display: block; width: 100%; height: 100%; fill: currentColor; }
+
+a { color: inherit; text-decoration: none; }
+
+.btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--target);
+  min-height: var(--target);
+  padding: 6px 12px;
+  border: var(--line) solid var(--ink);
+  border-radius: 4px;
+  background: var(--yellow);
+  color: var(--ink);
+  font-family: var(--comic);
+  font-size: 44px;
+  line-height: 1;
+  box-shadow: var(--pop) var(--pop) 0 var(--ink);
+  cursor: pointer;
+  transition: transform .1s cubic-bezier(.3, 1.8, .5, 1), box-shadow .1s;
+}
+.btn:hover { transform: translate(-1px, -1px) rotate(-1deg); box-shadow: 7px 7px 0 var(--ink); }
+.btn:active { transform: translate(5px, 5px); box-shadow: 1px 1px 0 var(--ink); }
+.btn:focus-visible { outline: 4px solid var(--paper); outline-offset: 3px; }
+.btn.sky { background: var(--sky); }
+.btn.coral { background: var(--coral); }
+.btn.plain { background: var(--paper); }
+
+/* Screens, top bars and pop-up panels */
+.screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+.screen[hidden], .overlay[hidden], .toast[hidden], .badge[hidden] { display: none; }
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  padding-top: max(12px, env(safe-area-inset-top));
+  flex: none;
+}
+.bar .spacer { flex: 1; }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(13, 42, 143, .6);
+  z-index: 10;
+  animation: fade-in .16s ease-out;
+}
+.overlay.won { background: rgba(13, 42, 143, .35); }
+.panel {
+  width: min(100%, 500px);
+  max-height: 100%;
+  overflow-y: auto;
+  background: var(--paper);
+  border: 6px solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 10px 10px 0 var(--ink);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: panel-in .36s cubic-bezier(.3, 1.7, .5, 1);
+}
+@keyframes fade-in { from { background: transparent; } }
+@keyframes panel-in { from { transform: scale(.6) rotate(-4deg); } }
+
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+
+@media (max-width: 420px) {
+  .bar { gap: 8px; padding-left: 10px; padding-right: 10px; }
+  .panel { padding: 14px; gap: 12px; }
+}
+
+@media (max-height: 520px) {
+  :root { --target: 60px; }
+  .btn { font-size: 36px; }
+  .bar { padding-top: max(6px, env(safe-area-inset-top)); padding-bottom: 6px; }
+  .panel { gap: 8px; padding: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+  .overlay, .panel { animation: none; }
+}
+
+/* Shared game pieces */
+.confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; }
+
+.sticker {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  color: var(--sticker, var(--yellow));
+  background: var(--cobalt-deep);
+  border: var(--line) solid var(--ink);
+  border-radius: 50%;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.sticker .icon { width: 62%; height: 62%; filter: drop-shadow(2px 2px 0 var(--ink)); }
+.sticker.big { width: min(58vw, 280px); }
+
+.sticker-pop {
+  appearance: none;
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  display: grid;
+  place-items: center;
+  border: 0;
+  padding: 0;
+  background: rgba(13, 42, 143, .55);
+  cursor: pointer;
+}
+.sticker-pop .sticker { animation: sticker-in .5s cubic-bezier(.3, 1.9, .5, 1); }
+@keyframes sticker-in { from { transform: scale(.2) rotate(-90deg); } }
+
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.choices .btn { min-height: 100px; font-size: 62px; letter-spacing: .03em; }
+.choices .btn:nth-child(1) { transform: rotate(-1.2deg); }
+.choices .btn:nth-child(2) { background: var(--sky); transform: rotate(1deg); }
+.choices .btn:nth-child(3) { background: var(--coral); transform: rotate(1deg); }
+.choices .btn:nth-child(4) { background: var(--paper); transform: rotate(-1deg); }
+
+.party { align-self: center; font-size: 84px; line-height: 0; color: var(--coral); animation: sticker-in .5s cubic-bezier(.3, 2, .5, 1); }
+
+.add-link { align-self: center; font-size: 84px; min-width: 150px; min-height: 130px; }
+
+.shake { animation: shake .36s; }
+@keyframes shake {
+  25% { transform: translateX(-9px) rotate(-2deg); }
+  75% { transform: translateX(9px) rotate(2deg); }
+}
+
+@media (max-height: 520px) { .party { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker-pop .sticker, .party, .shake { animation: none; }
+}
+
+.rounds { display: flex; gap: 2px; font-size: 30px; color: rgba(255, 253, 243, .35); filter: drop-shadow(2px 2px 0 var(--ink)); }
+.rounds .on { color: var(--yellow); }
+.count {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 40px;
+  line-height: 1;
+  background: var(--paper);
+  border: var(--line) solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.count .icon { color: var(--red); }
+.count b { font-weight: 400; font-variant-numeric: tabular-nums; }

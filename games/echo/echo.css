@@ -1,0 +1,24 @@
+html, body { overflow: hidden; overscroll-behavior: none; }
+
+.pads { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 16px; padding: 8px 18px 22px; }
+.pad {
+  appearance: none;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  font-size: clamp(56px, 18vmin, 130px);
+  line-height: 0;
+  color: var(--ink);
+  background: var(--pad);
+  border: 6px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--ink);
+  cursor: pointer;
+  touch-action: manipulation;
+  filter: saturate(.72) brightness(.82);
+  transition: transform .08s, box-shadow .08s, filter .08s;
+}
+.pad.lit { filter: none; transform: translate(4px, 4px) scale(1.02); box-shadow: 3px 3px 0 var(--ink), 0 0 0 7px var(--paper); }
+.pad:focus-visible { outline: 4px solid var(--paper); outline-offset: 3px; }
+#sizes .btn .icon { font-size: 62px; }
+@media (prefers-reduced-motion: reduce) { .pad { transition: none; } }

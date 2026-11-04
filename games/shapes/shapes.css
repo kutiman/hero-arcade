@@ -1,0 +1,29 @@
+html, body { overflow: hidden; overscroll-behavior: none; }
+
+.sort { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: space-evenly; gap: 16px; padding: 8px 14px 18px; }
+.row { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+.hole, .piece {
+  --cell: clamp(84px, 21vmin, 170px);
+  display: grid;
+  place-items: center;
+  width: var(--cell);
+  height: var(--cell);
+  font-size: calc(var(--cell) * .72);
+  line-height: 0;
+}
+.hole { color: var(--cobalt-deep); background: rgba(255, 253, 243, .85); border: var(--line) dashed var(--ink); }
+.hole.filled { background: var(--yellow); border-style: solid; color: transparent; }
+.piece {
+  position: relative;
+  background: var(--cobalt-deep);
+  border: var(--line) solid var(--ink);
+  box-shadow: var(--pop) var(--pop) 0 var(--ink);
+  touch-action: none;
+  cursor: grab;
+  transition: transform .22s cubic-bezier(.3, 1.6, .5, 1);
+}
+.piece .icon { filter: drop-shadow(3px 3px 0 var(--ink)); }
+.piece.held { z-index: 5; transition: none; cursor: grabbing; }
+.piece.placed { z-index: 2; pointer-events: none; box-shadow: none; }
+
+@media (prefers-reduced-motion: reduce) { .piece { transition: none; } }
